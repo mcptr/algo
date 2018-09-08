@@ -59,7 +59,10 @@ struct stack_t *load_program(char* path)
 int translate_command(const char *str)
 {
 	int n = strlen(str);
-	if(strncmp(str, "PUSH", n) == 0) {
+	if(strncmp(str, "MOV", n) == 0) {
+		return MOV;
+	}
+	else if(strncmp(str, "PUSH", n) == 0) {
 		return PUSH;
 	}
 	else if(strncmp(str, "POP", n) == 0) {

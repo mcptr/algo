@@ -34,6 +34,7 @@ void machine_load_program(struct machine_t *m, struct stack_t *program)
 
 void machine_print_registers(struct machine_t *m)
 {
+	printf("# Registers\n");
 	printf("# R0=%-4d R1=%-4d R2=%-4d R3=%-4d ACC=%d\n",
 		   m->registers[0],
 		   m->registers[1],
@@ -45,13 +46,16 @@ void machine_print_registers(struct machine_t *m)
 void machine_dump_memory(struct machine_t *m)
 {
 	machine_print_registers(m);
-	printf("# ");
+	printf("# Memory\n# ");
 	for(int i = 0; i < m->max_mem; i++) {
 		printf("%-2d ", m->memory[i]);
 		if(i && (i + 1) % 32 == 0) {
 			if(i < m->max_mem - 1)
 				printf("\n# ");
 		}
+		/* else if(i && (i + 1) % 8 == 0) { */
+		/* 	printf("| "); */
+		/* } */
 	}
 	printf("\n");
 }

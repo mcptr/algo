@@ -2,8 +2,9 @@
 
 #define NOOP  0x0000
 #define PRINT 0x0010
-#define PUSH  0x0101
-#define POP   0x0102
+#define MOV   0x0100
+#define PUSH  0x0111
+#define POP   0x0112
 #define ADD   0x0201
 #define JMP   0x0200
 

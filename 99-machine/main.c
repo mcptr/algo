@@ -13,7 +13,7 @@ void process(struct machine_t *machine)
 		debug("\n>>> %s # %d (arg0: %d, arg1: %d)\n", i->comment, i->code, i->args[0], i->args[1]);
 
 		switch(i->code) {
-		case PUSH:
+		case MOV:
 			machine->registers[i->args[0]] = i->args[1];
 			break;
 		case ADD:
@@ -34,7 +34,7 @@ void process(struct machine_t *machine)
 
 int main(int argc, char** argv)
 {
-	struct machine_t *machine = machine_create(128, 32);
+	struct machine_t *machine = machine_create(64, 32);
 
 	struct stack_t *program = (argc > 1 ? load_program(argv[1]) : stack_create(32));
 

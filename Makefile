@@ -3,7 +3,7 @@
 
 all:
 	@for d in *; do \
-		test -d $$d && \
+		test -d $$d && test -f $$d/Makefile && \
 			(echo ">>> Buliding $$d" && \
 			cd $$d && $(MAKE) && cd - && echo "") || \
 			true; \
@@ -11,7 +11,7 @@ all:
 
 clean:
 	@for d in *; do \
-		test -d $$d && \
+		test -d $$d && test -f $$d/Makefile && \
 			(echo ">>> Cleaning $$d" && \
 			cd $$d && $(MAKE) clean && cd - ) || \
 			true; \

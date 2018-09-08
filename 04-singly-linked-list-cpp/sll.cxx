@@ -31,16 +31,14 @@ public:
 
 	void clear()
 	{
-		list_node *p = head_;
+		list_node *p;
 
-		while(p) {
+		while(head_) {
+			p = head_->next;
 			delete head_;
-			head_ = p->next;
-			p = p->next;
+			head_ = p;
 			size_--;
 		}
-
-		head_ = nullptr;
 	}
 
 	void append(int value)

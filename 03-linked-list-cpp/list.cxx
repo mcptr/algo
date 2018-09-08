@@ -41,13 +41,12 @@ public:
 	
 	void clear()
 	{
-		list_node_t* p = front_;
-		while(p) {
+		list_node_t* p;
+		while(front_) {
+			p = front_->next;
 			delete front_;
-			front_ = p->next;
-			p = p->next;
+			front_ = p;
 		}
-		front_ = nullptr;
 	}
 
 	bool remove(const T& value)

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "std.h"
+
 
 #ifdef DEBUG
 #define debug(fmt, ...) \
@@ -7,4 +9,3 @@
 #else
 #define debug(fmt, ...) 
 #endif
-

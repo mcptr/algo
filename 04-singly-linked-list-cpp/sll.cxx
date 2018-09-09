@@ -120,6 +120,39 @@ public:
 		return ok;
 	}
 
+	void reverse()
+	{
+		list_node *p = head_;
+		list_node *last_head = head_;
+		while(p->next) {
+			head_ = p->next;
+			p->next = head_->next;
+			head_->next = last_head;
+			last_head = head_;
+		}
+	}
+	
+	void reverse_two_step()
+	{
+		list_node *p = head_;
+		while(p && p->next) {
+			p = p->next;
+		}
+
+		list_node *new_head = p;
+		list_node *tmp;
+		p = head_;
+
+		while(p != new_head) {
+			tmp = p->next;
+
+			p->next = new_head->next;
+			new_head->next = p;
+			p = tmp;
+		}
+		head_ = new_head;
+	}
+	
 	void display() const
 	{
 		if(is_empty()) {
@@ -154,6 +187,12 @@ int main()
 	l.display();
 
 	l.remove(4);
+	l.display();
+
+	l.reverse();
+	l.display();
+
+	l.reverse_two_step();
 	l.display();
 
 	l.clear();

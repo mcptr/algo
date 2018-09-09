@@ -2,32 +2,9 @@
 #include "../c-utils/utils.h"
 
 
-void reverse(int *arr, size_t size)
-{
-	int left = 0;
-	int right = size - 1;
+void print_array(int *arr, size_t size);
+void reverse(int *arr, size_t size);
 
-	int tmp;
-	while(left < right) {
-		debug("# swap: %d <-> %d (%d <-> %d)\n", left, right, arr[left], arr[right]);
-		tmp = arr[right];
-		arr[right] = arr[left];
-		arr[left] = tmp;
-		left++;
-		right--;
-		print_array(arr, size);
-	}
-}
-
-
-void print_array(int *arr, size_t size)
-{
-	printf("{ ");
-	for(size_t i = 0; i < size; i++) {
-		printf("%d, ", arr[i]);
-	}
-	printf("}\n");
-}
 
 int main()
 {
@@ -44,4 +21,32 @@ int main()
 	reverse(array_2, sizeof(array_2) / sizeof(int));
 	
 	return 0;
+}
+
+
+void print_array(int *arr, size_t size)
+{
+	printf("{ ");
+	for(size_t i = 0; i < size; i++) {
+		printf("%d, ", arr[i]);
+	}
+	printf("}\n");
+}
+
+
+void reverse(int *arr, size_t size)
+{
+	int left = 0;
+	int right = size - 1;
+
+	int tmp;
+	while(left < right) {
+		debug("# swap: %d <-> %d (%d <-> %d)\n", left, right, arr[left], arr[right]);
+		tmp = arr[right];
+		arr[right] = arr[left];
+		arr[left] = tmp;
+		left++;
+		right--;
+		print_array(arr, size);
+	}
 }

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 
 
 struct list_node
@@ -19,7 +20,7 @@ public:
 		clear();
 	}
 
-	std::size_t size() const
+	inline std::size_t size() const
 	{
 		return size_;
 	}
@@ -85,6 +86,27 @@ public:
 		size_++;
 	}
 
+	const list_node *nth_from_end(int n)
+	{
+		list_node *ahead_ptr = head_;
+		list_node *ptr = head_;
+
+		for(int i = 0; i < n; i++) {
+			ahead_ptr = ahead_ptr->next;
+			if(!ahead_ptr) {
+				return nullptr;
+			}
+		}
+
+		while(ahead_ptr->next) {
+			ahead_ptr = ahead_ptr->next;
+			ptr = ptr->next;
+		}
+
+		return ptr;
+	}
+
+	
 	bool remove(int value)
 	{
 		list_node *p;
@@ -195,6 +217,20 @@ int main()
 	l.reverse_two_step();
 	l.display();
 
+	for(std::size_t i = 0; i < l.size() + 2; i++) {
+		const list_node *p;
+		if((p = l.nth_from_end(i)) != nullptr) {
+			std::cout << "nth_from_end(" << i << "): "
+					  << std::dec << std::setw(2) << p->data
+					  << " (" << std::hex << p << ")" << std::endl;
+		}
+		else {
+			std::cout << "NO nth_from_end(" << i << "): "
+					  << "(none) (" << std::hex << (void*)p << ")" << std::endl;
+		}
+	}
+
+	
 	l.clear();
 
 	l.display();

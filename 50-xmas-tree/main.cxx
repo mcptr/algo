@@ -1,6 +1,4 @@
 #include <iostream>
-#include <cmath>
-#include <cstdlib>
 
 
 void draw_tree(std::size_t height)

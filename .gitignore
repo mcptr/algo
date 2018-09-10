@@ -2,3 +2,4 @@ bin/
 build/
 .ignore/
 .emacs.desktop
+prog

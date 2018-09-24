@@ -1,0 +1,89 @@
+#include <iostream>
+
+
+class Heap
+{
+public:
+	Heap(std::size_t capacity)
+		: capacity_(capacity),
+		  elements_(new int[capacity])
+	{
+	}
+
+	virtual ~Heap()
+	{
+		delete elements_;
+	}
+
+	inline virtual std::size_t capacity() const final { return capacity_; }
+	inline virtual std::size_t size() const final { return size_; }
+	inline virtual bool is_full() const final { return size_ == capacity_; }
+
+	virtual void push(int value) final
+	{
+		if(is_full())
+			throw std::runtime_error("Full");
+
+		push_element(value);
+	}
+
+	virtual std::size_t parent(std::size_t pos) const final
+	{
+		return pos == 1 ? 0 else pos / 2;
+	}
+
+	virtual std::size_t left(std::size_t pos) const final
+	{
+		return (2 * pos <= size_ ? 2 * pos : 0);
+	}
+
+	virtual std::size_t right(std::size_t pos) const final
+	{
+		return (2 * pos + 1 <= size_ ? 2 * pos + 1 : 0);
+	}
+
+	virtual void heapify() = 0;
+
+protected:
+	virtual void push_element(int value) = 0;
+
+private:
+	std::size_t capacity_;
+	int* elements_;
+	std::size_t size_ = 0;
+};
+
+
+class MaxHeap : public Heap
+{
+public:
+	MaxHeap(std::size_t capacity) : Heap(capacity)
+	{
+	}
+
+	virtual void heapify(std::size_t pos) override
+	{
+		std::size_t l = left();
+		std::size_t r = right();
+
+	}
+
+protected:
+	virtual void push_element(int value) override
+	{
+		int pos = size_;
+		size_++;
+		elements_[pos] = value;
+		heapify();
+	}
+
+};
+
+
+int main()
+{
+	MaxHeap heap(64);
+	std::cout << heap.capacity() << " " << heap.size() << std::endl;
+
+	return 0;
+}

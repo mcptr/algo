@@ -8,10 +8,12 @@
 
 /*
  * Ideas:
- * a) 2 ** 10000 gives a number +3000 digits long. Not easy.
+ * a) Fermat's Little Theorem, gives looong numbers.
  * b) naive: go up to sqrt(n) and just try
- * c) aks test
+ * c) AKS test
  * d) simple static table of multiples
+ *
+ * This implementation does b)rute force.
  */
 
 int is_prime(unsigned long n)

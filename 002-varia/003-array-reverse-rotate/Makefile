@@ -1,8 +1,8 @@
 #### PROJECT SETTINGS ####
 # The name of the executable to be created
-BIN_NAME := arrays
+BIN_NAME := prog
 # Compiler used
-CC = musl-gcc
+CC = gcc
 # Extension of source files used in the project
 SRC_EXT = c
 # Path to the source directory, relative to the makefile

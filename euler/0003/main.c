@@ -44,13 +44,11 @@ int main(int argc, char *argv[])
 	unsigned long number = (argc > 1 ? strtoul(argv[1], &ptr, 10) :  600851475143);
 
 	long prime = 2;
-	int pos = 0;
 
 	while(number > 1) {
 		if(number % prime == 0) {
-			printf("%ld, ", prime);
-			pos++;
 			number /= prime;
+			printf("%ld, ", prime);
 		}
 		else {
 			prime = next_prime(prime);

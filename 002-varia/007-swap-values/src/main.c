@@ -10,7 +10,7 @@ void swap(int *x, int *y)
 }
 
 
-int main(int argc, char** argv)
+int main(void)
 {
 	int x, y;
 

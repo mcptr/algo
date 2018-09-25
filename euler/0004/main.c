@@ -2,6 +2,12 @@
 #include <stdio.h>
 #include <math.h>
 
+/*
+ * Quick benchmarks show that is_palindrome_naive()
+ * is faster than is_palindrome(). Maybe because
+ * naive exits early in non-palindrome case (although it does
+ * the same amount of divisions to fill the array).
+ */
 
 int is_palindrome_naive(unsigned long n)
 {
@@ -53,43 +59,49 @@ int main(int argc, char** argv)
 		return -1;
 	}
 
-	long start = pow(10, digits - 1);
-	if(digits > 2) {
-		start *= 9;
-	}
-
-	// hand-made optimization
-	if(digits >= 5) {
-		start += pow(10, digits - 2) * 9;
-	}
-
-
-	long end = pow(10, digits) - 1;
+	unsigned long start = pow(10, digits - 1);
+	unsigned long end = pow(10, digits) - 1;
 
 	printf("# Looking for palindromes in range (%ld, %ld)\n", start, end);
 
-	int i;
-	int j;
+	unsigned long i;
+	unsigned long j;
 	unsigned long product = 0;
 
 	unsigned long max_palindrome = 0;
 	unsigned long product_0 = 0;
 	unsigned long product_1 = 0;
 
-	for(i = start; i < end; i++) {
-		for(j = start; j < end; j++) {
+	unsigned long min_product = 0;
+
+	/* the outer loop starts from top, the inner from bottom.
+	 * if we get to the largest known factor within inner/bottom loop range
+	 * it means that (i * end) can't get greater than known max_palindrome
+	 *
+	 */
+	for(i = end; i >= start; i--) {
+
+		if((max_palindrome && i <= min_product))
+			break;
+
+		for(j = start; j <= end; j++) {
 			product = i * j;
-			if(is_palindrome(product)) {
+			if(is_palindrome_naive(product)) {
+				printf("# %ld * %ld = %16ld\tMAX: %ld, (min product: %ld)\n",
+					   i, j, product, max_palindrome, min_product);
 				if(product > max_palindrome) {
+					min_product = j;
 					max_palindrome = product;
 					product_0 = i;
 					product_1 = j;
 				}
 			}
+
 		}
 	}
 
 	printf("Digits: %ld, Palindrome: %ld (%ld * %ld)\n", digits, max_palindrome, product_0, product_1);
+
 
 	return 0;
 }

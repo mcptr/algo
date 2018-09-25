@@ -1,5 +1,13 @@
 TODO:
 
+- Problem 0007: Check the performance of generating nth prime using sieve of Eratosthenes.
+	Asymptote:
+
+	```
+	>>> n * (math.log(n) + math.log(math.log(n)))
+	114319.21107907654
+	```
+
 
 
 DONE:

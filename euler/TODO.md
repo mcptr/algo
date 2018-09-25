@@ -8,6 +8,7 @@ TODO:
 	114319.21107907654
 	```
 
+	https://en.wikipedia.org/wiki/Prime_number_theorem#Approximations_for_the_nth_prime_number
 
 
 DONE:

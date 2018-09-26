@@ -43,6 +43,7 @@ int main(int argc, char *argv[])
 	unsigned long number = (argc > 1 ? strtoul(argv[1], 0, 10) :  600851475143);
 
 	long prime = 2;
+	long max_prime = 0;
 
 	while(number > 1) {
 		if(number % prime == 0) {
@@ -52,9 +53,13 @@ int main(int argc, char *argv[])
 		else {
 			prime = next_prime(prime);
 		}
+
+		if(prime > max_prime)
+			max_prime = prime;
 	}
 
 	printf("\n");
+	printf("Max prime: %ld\n", max_prime);
 
 	return 0;
 }

@@ -1,9 +1,7 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <strings.h>
-#include <assert.h>
-#include <errno.h>
+#include "std.h"
+#include "grid.h"
+
+#define clear_screen() printf("\033[H\033[J")
 
 
 const char* grid_str = (
@@ -30,78 +28,86 @@ const char* grid_str = (
 );
 
 
-void mk_grid(int **grid, int grid_size)
-{
-	*grid = calloc(grid_size, sizeof(int));
-	char *s = strdup(grid_str);
-	char *token;
-	int i = 0;
-	while((token = strsep(&s, " ")) != NULL) {
-		(*grid)[i++] = atoi(token);
-	}
-}
+/* void mk_paths(const int *grid, int rows, int cols, int pos, int path_size) */
+/* { */
+/*	assert(pos < rows * cols); */
+/*	int current_row = (pos >= cols ? pos / cols : 0); */
+/*	printf("@%d, row: %d, pos: %d, cols: %d\n", grid[pos], current_row, pos, cols); */
 
-void display_grid(const int *grid, int grid_size, int cols)
-{
-	int i;
-	int j;
+/*	int c, r; */
 
-	printf("\t");
-	for(i = 0; i < cols; i++) {
-		printf(" %2d ", i);
-	}
+/*	if(current_row == 0) { */
+/*		// right */
+/*	} */
+/*	else if(current_row + path_size > rows) { */
 
-	printf("\n\t");
+/*	} */
 
-	for(i = 0; i < cols; i++) {
-		printf("----");
-	}
+/*	int start_column = pos % cols; */
+/*	int start = current_row * cols + start_column; */
+/*	int end = start + path_size; */
+/*	printf("Start: %d, End: %d\n", start, end); */
 
-	printf("\n");
+/*	printf("RIGHT: "); */
+/*	if(start_column + path_size > cols) { */
+/*		printf("Too large: %d - %d\n", start, end); */
+/*	} */
+/*	else { */
+/*		int i; */
+/*		for(i = start; i < end; i++) { */
+/*			printf("%d ", grid[i]); */
+/*		} */
+/*	} */
+
+/*	printf("RIGHT: "); */
+/*	if(start_column + path_size > cols) { */
+/*		printf("Too large: %d - %d\n", start, end); */
+/*	} */
+/*	else { */
+/*		int i; */
+/*		for(i = start; i < end; i++) { */
+/*			printf("%d ", grid[i]); */
+/*		} */
+/*	} */
+
+/*	printf("\nDOWN: "); */
+/*	if(current_row + path_size > rows) { */
+/*		printf("Too large: %d - %d\n", current_row, current_row + path_size); */
+/*	} */
+/*	else { */
+/*		int i; */
+/*		for(i = 0; i < path_size; i++) { */
+/*			printf("%d ", grid[(current_row + i) * cols + start_column]); */
+/*		} */
+/*	} */
+
+/*	printf("\nUP: "); */
+/*	if(current_row - path_size < 0) { */
+/*		printf("Too large: %d - %d\n", current_row, current_row - path_size); */
+/*	} */
+/*	else { */
+/*		int i; */
+/*		for(i = 0; i < path_size; i++) { */
+/*			printf("%d ", grid[(current_row - i) * cols + start_column]); */
+/*		} */
+/*	} */
+/* } */
 
 
-	int column_no = 0;
-	for(i = 0; i < grid_size; i += cols, column_no++) {
-		printf("%2d\t|", column_no);
-		for(j = 0; j < cols; j++) {
-			printf(" %2d ", grid[i + j]);
-		}
-		printf("\n");
-	}
-
-	printf("\t");
-	for(i = 0; i < cols; i++) {
-		printf("----");
-	}
-
-	printf("\n");
-}
-
-
-void mk_paths(const int *grid, int rows, int cols, int pos, int path_size)
-{
-	assert(pos < rows * cols);
-	int row = (pos >= cols ? pos / cols : 0);
-	printf("@%d, row: %d, pos: %d, cols: %d\n", grid[pos], row, pos, cols);
-}
-
-
-int main(int argc, char** argv)
+int main(void)
 {
 	unsigned long sum = 0;
 
-	int rows = 20;
-	int cols = 20;
+	struct grid_t *grid = grid_create(20, 20, grid_str);
 
-	int *grid;
-	mk_grid(&grid, rows * cols);
+	//clear_screen();
+	grid_display(grid);
 
-	display_grid(grid, rows * cols, 20);
+	grid_destroy(grid);
+	/* mk_paths(grid, rows, cols, 3 * 36, path_size); */
 
-	mk_paths(grid, rows, cols, 29, 4);
-
-	free(grid);
-	printf("%ld\n", sum);
+	printf("\n");
+	//printf("%ld\n", sum);
 
 	return 0;
 }

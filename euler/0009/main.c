@@ -25,7 +25,7 @@ int main(int argc, char** argv)
 		for(b = 1; b <= sum; b++) {
 			c = sum - (a + b);
 			if(is_pythagorean_triplet(a, b, sum - (a + b))) {
-				printf("a = %d, b = %d, c = %d\n", a, b, c);
+				printf("a = %d, b = %d, c = %d, product = %ld\n", a, b, c, (long)(a * b * c));
 				return 0;
 			}
 		}

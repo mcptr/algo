@@ -33,6 +33,7 @@ def merge_factors(factors, new_factors):
 def solution(n):
     factors = []
     for i in range(1, n + 1): merge_factors(factors, factorize(i))
+    print(factors);
     product = 1
     for f in factors: product *= f
     return product

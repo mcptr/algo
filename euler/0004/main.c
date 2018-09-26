@@ -51,8 +51,7 @@ int is_palindrome(unsigned long n)
 
 int main(int argc, char** argv)
 {
-	char *ptr;
-	unsigned long digits = (argc > 1 ? strtoul(argv[1], &ptr, 10) :  3);
+	unsigned long digits = (argc > 1 ? strtoul(argv[1], 0, 10) :  3);
 
 	if(digits < 1) {
 		fprintf(stderr, "Invalid amount of digits: %ld\n", digits);

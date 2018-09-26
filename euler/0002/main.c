@@ -9,8 +9,7 @@
 
 int main(int argc, char** argv)
 {
-	char *ptr;
-	uint64_t max = argc > 1 ? strtoull(argv[1], &ptr, 10) : 4000000;
+	uint64_t max = argc > 1 ? strtoull(argv[1], 0, 10) : 4000000;
 
 	if(errno) {
 		fprintf(stderr, strerror(errno));

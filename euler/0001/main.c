@@ -32,9 +32,8 @@ long long calculate_sum(unsigned long limit)
 
 int main(int argc, char** argv)
 {
-	char *ptr;
-	unsigned long range0 = (argc > 1 ? strtoul(argv[1], &ptr, 10) : 1000);
-	unsigned long range1 = (argc > 2 ? strtoul(argv[2], &ptr, 10) : 0);
+	unsigned long range0 = (argc > 1 ? strtoul(argv[1], 0, 10) : 1000);
+	unsigned long range1 = (argc > 2 ? strtoul(argv[2], 0, 10) : 0);
 
 	if(errno) {
 		fprintf(stderr, strerror(errno));

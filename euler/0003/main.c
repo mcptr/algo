@@ -40,8 +40,7 @@ long next_prime(unsigned long bottom)
 
 int main(int argc, char *argv[])
 {
-	char *ptr;
-	unsigned long number = (argc > 1 ? strtoul(argv[1], &ptr, 10) :  600851475143);
+	unsigned long number = (argc > 1 ? strtoul(argv[1], 0, 10) :  600851475143);
 
 	long prime = 2;
 

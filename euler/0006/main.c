@@ -7,8 +7,7 @@
 
 int main(int argc, char** argv)
 {
-	char *ptr;
-	unsigned long max = (argc > 1 ? strtoul(argv[1], &ptr, 10) :  100);
+	unsigned long max = (argc > 1 ? strtoul(argv[1], 0, 10) :  100);
 
 	printf("Range: 1 - %ld\n", max);
 

@@ -1,113 +1,179 @@
-#include "std.h"
-#include "grid.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
-#define clear_screen() printf("\033[H\033[J")
-
-
-const char* grid_str = (
-	"08 02 22 97 38 15 00 40 00 75 04 05 07 78 52 12 50 77 91 08 "
-	"49 49 99 40 17 81 18 57 60 87 17 40 98 43 69 48 04 56 62 00 "
-	"81 49 31 73 55 79 14 29 93 71 40 67 53 88 30 03 49 13 36 65 "
-	"52 70 95 23 04 60 11 42 69 24 68 56 01 32 56 71 37 02 36 91 "
-	"22 31 16 71 51 67 63 89 41 92 36 54 22 40 40 28 66 33 13 80 "
-	"24 47 32 60 99 03 45 02 44 75 33 53 78 36 84 20 35 17 12 50 "
-	"32 98 81 28 64 23 67 10 26 38 40 67 59 54 70 66 18 38 64 70 "
-	"67 26 20 68 02 62 12 20 95 63 94 39 63 08 40 91 66 49 94 21 "
-	"24 55 58 05 66 73 99 26 97 17 78 78 96 83 14 88 34 89 63 72 "
-	"21 36 23 09 75 00 76 44 20 45 35 14 00 61 33 97 34 31 33 95 "
-	"78 17 53 28 22 75 31 67 15 94 03 80 04 62 16 14 09 53 56 92 "
-	"16 39 05 42 96 35 31 47 55 58 88 24 00 17 54 24 36 29 85 57 "
-	"86 56 00 48 35 71 89 07 05 44 44 37 44 60 21 58 51 54 17 58 "
-	"19 80 81 68 05 94 47 69 28 73 92 13 86 52 17 77 04 89 55 40 "
-	"04 52 08 83 97 35 99 16 07 97 57 32 16 26 26 79 33 27 98 66 "
-	"88 36 68 87 57 62 20 72 03 46 33 67 46 55 12 32 63 93 53 69 "
-	"04 42 16 73 38 25 39 11 24 94 72 18 08 46 29 32 40 62 76 36 "
-	"20 69 36 41 72 30 23 88 34 62 99 69 82 67 59 85 74 04 36 16 "
-	"20 73 35 29 78 31 90 01 74 31 49 71 48 86 81 16 23 57 05 54 "
-	"01 70 54 71 83 51 54 69 16 92 33 48 61 43 52 01 89 19 67 48"
-);
-
-
-/* void mk_paths(const int *grid, int rows, int cols, int pos, int path_size) */
-/* { */
-/*	assert(pos < rows * cols); */
-/*	int current_row = (pos >= cols ? pos / cols : 0); */
-/*	printf("@%d, row: %d, pos: %d, cols: %d\n", grid[pos], current_row, pos, cols); */
-
-/*	int c, r; */
-
-/*	if(current_row == 0) { */
-/*		// right */
-/*	} */
-/*	else if(current_row + path_size > rows) { */
-
-/*	} */
-
-/*	int start_column = pos % cols; */
-/*	int start = current_row * cols + start_column; */
-/*	int end = start + path_size; */
-/*	printf("Start: %d, End: %d\n", start, end); */
-
-/*	printf("RIGHT: "); */
-/*	if(start_column + path_size > cols) { */
-/*		printf("Too large: %d - %d\n", start, end); */
-/*	} */
-/*	else { */
-/*		int i; */
-/*		for(i = start; i < end; i++) { */
-/*			printf("%d ", grid[i]); */
-/*		} */
-/*	} */
-
-/*	printf("RIGHT: "); */
-/*	if(start_column + path_size > cols) { */
-/*		printf("Too large: %d - %d\n", start, end); */
-/*	} */
-/*	else { */
-/*		int i; */
-/*		for(i = start; i < end; i++) { */
-/*			printf("%d ", grid[i]); */
-/*		} */
-/*	} */
-
-/*	printf("\nDOWN: "); */
-/*	if(current_row + path_size > rows) { */
-/*		printf("Too large: %d - %d\n", current_row, current_row + path_size); */
-/*	} */
-/*	else { */
-/*		int i; */
-/*		for(i = 0; i < path_size; i++) { */
-/*			printf("%d ", grid[(current_row + i) * cols + start_column]); */
-/*		} */
-/*	} */
-
-/*	printf("\nUP: "); */
-/*	if(current_row - path_size < 0) { */
-/*		printf("Too large: %d - %d\n", current_row, current_row - path_size); */
-/*	} */
-/*	else { */
-/*		int i; */
-/*		for(i = 0; i < path_size; i++) { */
-/*			printf("%d ", grid[(current_row - i) * cols + start_column]); */
-/*		} */
-/*	} */
-/* } */
+int read_grid(const char *path, int *grid, int grid_size);
+void display_grid(const int *grid, int rows, int cols);
+unsigned long find_max_path(const int *grid, int rows, int cols, int len);
 
 
 int main(void)
 {
-	unsigned long sum = 0;
+	const char* filename = "grid.txt";
+	int rows = 20;
+	int cols = 20;
 
-	struct grid_t *grid = grid_create(20, 20, grid_str);
+	int *grid = (int*) malloc(rows * cols * sizeof(int));
 
-	//clear_screen();
-	grid_display(grid);
+	int status;
+	if((status = read_grid(filename, grid, rows * cols)) == -1) {
+		fprintf(stderr, "Failed to read grid: %s\n", filename);
+		return 1;
+	}
 
-	grid_destroy(grid);
-	/* mk_paths(grid, rows, cols, 3 * 36, path_size); */
+	display_grid(grid, rows, cols);
+
+	printf("Max product: %ld\n", find_max_path(grid, rows, cols, 4));
+
+	free(grid);
 
 	printf("\n");
-	//printf("%ld\n", sum);
-
 	return 0;
+}
+
+
+unsigned long find_max_path(const int *grid, int rows, int cols, int len)
+{
+	unsigned long max_product = 0;
+	unsigned long product = 1;
+	int i;
+	int j;
+	int r;
+
+	/* right */
+	for(r = 0; r < rows; r++) {
+		for(i = 0; i <= cols - len; i++) {
+			product = 1;
+			for(j = 0; j < len; j++) {
+				product *= grid[i + j + r * cols];
+				printf("%2d ", grid[i + j + r * cols]);
+			}
+
+			printf(" -> %12ld", product);
+			if(product > max_product) {
+				max_product = product;
+				printf(" *MAX* ");
+			}
+			printf("\n");
+		}
+	}
+
+	/* down */
+	for(r = 0; r <= rows - len; r++) {
+		for(i = 0; i < cols; i++) {
+			product = 1;
+			for(j = 0; j < len; j++) {
+				product *= grid[(r + j) * cols + i];
+				printf("%2d ", grid[(r + j) * cols + i]);
+			}
+
+			printf(" -> %12ld", product);
+			if(product > max_product) {
+				max_product = product;
+				printf(" *MAX* ");
+			}
+			printf("\n");
+		}
+	}
+
+	/* diagonal right down  */
+	for(r = 0; r < rows - len + 1; r++) {
+		for(i = 0; i <= cols - len; i++) {
+			product = 1;
+			for(j = 0; j < len; j++) {
+				product *= grid[cols * (j + r) + i + j];
+				printf("%2d ", grid[cols * (j + r) + i + j]);
+			}
+
+			printf(" -> %12ld", product);
+			if(product > max_product) {
+				max_product = product;
+				printf(" *MAX* ");
+			}
+			printf("\n");
+		}
+	}
+
+	/* diagonal left down  */
+	for(r = 0; r < rows - len + 1; r++) {
+		for(i = len - 1; i < cols; i++) {
+			product = 1;
+			for(j = 0; j < len; j++) {
+				product *= grid[cols * (j + r) + i - j];
+				printf("%2d ", grid[cols * (j + r) + i - j]);
+			}
+
+			printf(" -> %12ld", product);
+			if(product > max_product) {
+				max_product = product;
+				printf(" *MAX* ");
+			}
+			printf("\n");
+		}
+	}
+
+	return max_product;
+}
+
+
+int read_grid(const char *path, int *grid, int grid_size)
+{
+	FILE *fh = fopen(path, "r");
+
+	if(fh == NULL) {
+		return -1;
+	}
+
+	size_t len;
+	int bytes;
+	char *line = NULL;
+
+	char *token = NULL;
+	int i = 0;
+
+	while((bytes = getline(&line, &len, fh)) != -1) {
+		while((token = strsep(&line, " ")) != NULL) {
+			grid[i++] = atoi(token);
+		}
+	}
+
+	fclose(fh);
+	return 0;
+}
+
+
+void display_grid(const int *grid, int rows, int cols)
+{
+	int i;
+	int j;
+
+	printf("\t");
+	for(i = 0; i < cols; i++) {
+		printf(" %3d ", i);
+	}
+
+	printf("\n\t");
+
+	for(i = 0; i < cols; i++) {
+		printf("-----");
+	}
+
+	printf("\n");
+
+
+	int column_no = 0;
+	for(i = 0; i < cols * rows; i += cols, column_no++) {
+		printf("%3d\t|", column_no);
+		for(j = 0; j < cols; j++) {
+			printf(" %3d ", grid[i + j]);
+		}
+		printf("\n");
+	}
+
+	printf("\t");
+	for(i = 0; i < cols; i++) {
+		printf("-----");
+	}
+
+	printf("\n");
 }

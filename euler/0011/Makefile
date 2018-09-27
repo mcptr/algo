@@ -196,11 +196,6 @@ clean:
 	@$(RM) -r build
 	@$(RM) -r bin
 
-.PHONY: rmcore
-rmcore:
-	@echo "Deleting core files"
-	@$(RM) core*
-
 # Main rule, checks the executable and symlinks to the output
 all: $(BIN_PATH)/$(BIN_NAME)
 	@echo "Making symlink: $(BIN_NAME) -> $<"

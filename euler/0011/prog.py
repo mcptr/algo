@@ -1,26 +1,23 @@
 #!/usr/bin/env python
 
 
-def display(data):
-    grid = data["grid"]
-    for i in range(0, data["rows"]):
+def display(grid, rows, cols):
+    print("".center(cols * 3 - 1, "-"))
+    for i in range(0, rows):
         print(" ".join(["%2d" % _ for _ in grid[i]]))
+    print("".center(cols * 3 - 1, "-"))
+    print("Size: %d x %d" % (rows, cols))
+    print("".center(cols * 3 - 1, "="))
 
 
 def find_product(grid, r, c, dr, dc, path_len):
     product = 1
     for i in range(path_len):
-        print(grid[r + dr * i][c + dc * i], end=" ")
         product *= grid[r + dr * i][c + dc * i]
-    print("")
     return product
 
 
-def find_max_product(data, path_len=4):
-    grid = data["grid"]
-    rows = data["rows"]
-    cols = data["cols"]
-
+def find_max_product(grid, rows, cols, path_len=4):
     max_product = 0
 
     for r in range(0, rows):
@@ -38,20 +35,16 @@ def find_max_product(data, path_len=4):
 
 
 def solve(filename):
-    data = dict(
-        rows=0,
-        cols=0,
-        grid=[]
-    )
+    grid = []
     with open(filename, "r") as f:
         for line in f.readlines():
-            data["grid"].append(list(map(int, line.strip().split())))
+            grid.append(list(map(int, line.strip().split())))
 
-    data["rows"] = len(data["grid"])
-    data["cols"] = len(data["grid"][0]) if data["rows"] else 0
+    rows = len(grid)
+    cols = len(grid[0]) if rows else 0
 
-    display(data)
-    return find_max_product(data)
+    display(grid, rows, cols)
+    return find_max_product(grid, rows, cols, 4)
 
 
 if __name__ == "__main__":
